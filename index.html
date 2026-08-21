@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A.R.T.I.S. — Astronomie</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #020611;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 25px 15px 15px;
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 8px;
+}
+
+.subtitle {
+    color: #55ddff;
+    letter-spacing: 5px;
+    font-size: 12px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+
+nav button {
+    background: #08172d;
+    color: white;
+    border: 1px solid #245184;
+    border-radius: 14px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+nav button:hover {
+    background: #12345c;
+}
+
+.container {
+    width: min(1000px, 94%);
+    margin: auto;
+    padding-bottom: 60px;
+}
+
+.card {
+    background: #071329;
+    border: 1px solid #214b78;
+    border-radius: 22px;
+    padding: 22px;
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.sky {
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    border: 1px solid #214b78;
+
+    background:
+        radial-gradient(circle at 10% 20%, white 1px, transparent 2px),
+        radial-gradient(circle at 20% 70%, white 1px, transparent 2px),
+        radial-gradient(circle at 30% 35%, white 2px, transparent 3px),
+        radial-gradient(circle at 40% 18%, white 1px, transparent 2px),
+        radial-gradient(circle at 50% 65%, white 1px, transparent 2px),
+        radial-gradient(circle at 60% 30%, white 2px, transparent 3px),
+        radial-gradient(circle at 70% 15%, white 1px, transparent 2px),
+        radial-gradient(circle at 80% 60%, white 1px, transparent 2px),
+        radial-gradient(circle at 90% 30%, white 2px, transparent 3px),
+        linear-gradient(#01050e, #091a36);
+}
+
+.sky-title {
+    position: absolute;
+    top: 20px;
+    left: 22px;
+    color: #5de0ff;
+    font-weight: bold;
+}
+
+.saturn {
+    position: absolute;
+    right: 15%;
+    top: 38%;
+    font-size: 65px;
+    filter: drop-shadow(0 0 20px #ffb52e);
+}
+
+.constellation {
+    position: absolute;
+    left: 28%;
+    top: 38%;
+}
+
+.constellation span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    margin: 25px;
+    box-shadow: 0 0 12px white;
+}
+
+.constellation-name {
+    color: #52dcff;
+    margin-left: 28%;
+    margin-top: 250px;
+}
+
+.location-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+input {
+    flex: 1;
+    padding: 14px;
+    border-radius: 13px;
+    border: 1px solid #315d8d;
+    background: #020b1c;
+    color: white;
+    font-size: 16px;
+}
+
+button.primary {
+    border: none;
+    border-radius: 13px;
+    background: #079ed5;
+    color: white;
+    padding: 14px 20px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.status {
+    margin-top: 14px;
+    color: #9db5d2;
+}
+
+.score {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.good {
+    color: #52e7a2;
+}
+
+.medium {
+    color: #ffd45c;
+}
+
+.bad {
+    color: #ff6969;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.info {
+    background: #040d1d;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+}
+
+.info b {
+    display: block;
+    margin-top: 6px;
+}
+
+.observe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.observe {
+    background: #040d1d;
+    border: 1px solid #193c65;
+    border-radius: 17px;
+    padding: 18px;
+}
+
+.stars {
+    color: #ffd45c;
+}
+
+.object-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.object {
+    background: #040d1d;
+    border: 1px solid #193c65;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.object img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    background: #01050d;
+}
+
+.object-content {
+    padding: 18px;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.news {
+    background: #040d1d;
+    border: 1px solid #193c65;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.news img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+}
+
+.news-content {
+    padding: 18px;
+}
+
+.news a {
+    color: #55ddff;
+    text-decoration: none;
+}
+
+.muted {
+    color: #8da8c8;
+}
+
+.loading {
+    text-align: center;
+    padding: 30px;
+    color: #55ddff;
+}
+
+@media (max-width: 700px) {
+
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .observe-grid,
+    .object-grid,
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .location-input {
+        flex-direction: column;
+    }
+
+    .logo {
+        font-size: 32px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">A.R.T.I.S.</div>
+
+    <div class="subtitle">
+        ASTRONOMIE • EXPLORATION • ESPACE
+    </div>
+
+</header>
+
+<nav>
+
+    <button onclick="showPage('ciel')">🌌 Ciel</button>
+    <button onclick="showPage('planetes')">🪐 Planètes</button>
+    <button onclick="showPage('etoiles')">⭐ Étoiles</button>
+    <button onclick="showPage('actualites')">🚀 Actualités</button>
+    <button onclick="showPage('recherche')">🔍 Recherche</button>
+
+</nav>
+
+<div class="container">
+
+<section id="ciel">
+
+    <div class="sky">
+
+        <div class="sky-title">
+            🌌 CARTE DU CIEL
+        </div>
+
+        <div class="constellation">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="constellation-name">
+            GRANDE OURSE
+        </div>
+
+        <div class="saturn">
+            🪐
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📍 Où observes-tu ?</h2>
+
+        <p class="muted">
+            Recherche une ville, un village ou un code postal français.
+        </p>
+
+        <div class="location-input">
+
+            <input
+                id="locationInput"
+                placeholder="Ex : Trévron, Plévenon, 35000..."
+            >
+
+            <button
+                class="primary"
+                onclick="searchLocation()"
+            >
+                Rechercher
+            </button>
+
+        </div>
+
+        <div id="locationStatus" class="status">
+            Aucun emplacement sélectionné.
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🌤️ Qualité du ciel</h2>
+
+        <div id="score" class="score">
+            — / 10
+        </div>
+
+        <p id="scoreText" class="muted">
+            Recherche ton emplacement.
+        </p>
+
+        <div class="info-grid">
+
+            <div class="info">
+                ☁️
+                <br>
+                Nuages
+                <b id="clouds">—</b>
+            </div>
+
+            <div class="info">
+                🌡️
+                <br>
+                Température
+                <b id="temperature">—</b>
+            </div>
+
+            <div class="info">
+                💨
+                <br>
+                Vent
+                <b id="wind">—</b>
+            </div>
+
+            <div class="info">
+                👁️
+                <br>
+                Visibilité
+                <b id="visibility">—</b>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🔭 Ce que tu peux observer</h2>
+
+        <div class="observe-grid">
+
+            <div class="observe">
+
+                <h3>👁️ Œil nu</h3>
+
+                <div class="stars">★★★★★</div>
+
+                ⭐ Étoiles<br>
+                ✨ Constellations<br>
+                🌙 Lune<br>
+                🪐 Planètes brillantes<br>
+                ☄️ Météores
+
+            </div>
+
+            <div class="observe">
+
+                <h3>🔭 Jumelles</h3>
+
+                <div class="stars">★★★★☆</div>
+
+                🌙 Cratères lunaires<br>
+                ⭐ Étoiles doubles<br>
+                ✨ Amas d'étoiles<br>
+                🌫️ Certaines nébuleuses
+
+            </div>
+
+            <div class="observe">
+
+                <h3>🔬 Télescope</h3>
+
+                <div class="stars">★★★★★</div>
+
+                🌙 Lune<br>
+                🪐 Saturne<br>
+                🟠 Jupiter<br>
+                🔴 Mars<br>
+                🌫️ Nébuleuses<br>
+                🌌 Galaxies
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="planetes" class="hidden">
+
+    <div class="card">
+
+        <h1>🪐 Planètes</h1>
+
+        <div id="planetGrid" class="object-grid">
+
+            <div class="loading">
+                🛰️ Chargement des vraies images NASA...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="etoiles" class="hidden">
+
+    <div class="card">
+
+        <h1>⭐ Étoiles, galaxies et nébuleuses</h1>
+
+        <div id="spaceGrid" class="object-grid">
+
+            <div class="loading">
+                🔭 Chargement des images NASA...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="actualites" class="hidden">
+
+    <div class="card">
+
+        <h1>🚀 Actualités spatiales</h1>
+
+        <p class="muted">
+            Les dernières actualités NASA directement dans A.R.T.I.S.
+        </p>
+
+        <div id="newsGrid" class="news-grid">
+
+            <div class="loading">
+                🛰️ Chargement des actualités...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="recherche" class="hidden">
+
+    <div class="card">
+
+        <h1>🔍 Recherche astronomique</h1>
+
+        <input
+            id="objectSearch"
+            placeholder="Ex : Saturne, Mars, galaxie, trou noir..."
+            style="width:100%;"
+            oninput="searchObject()"
+        >
+
+        <div id="searchResults" style="margin-top:20px;"></div>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* ================= NAVIGATION ================= */
+
+function showPage(page) {
+
+    const pages = [
+        "ciel",
+        "planetes",
+        "etoiles",
+        "actualites",
+        "recherche"
+    ];
+
+    pages.forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+    });
+
+    document.getElementById(page).classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    if (page === "planetes") {
+        loadPlanetImages();
+    }
+
+    if (page === "etoiles") {
+        loadSpaceImages();
+    }
+
+    if (page === "actualites") {
+        loadNews();
+    }
+}
+
+
+/* ================= RECHERCHE FRANCE ================= */
+
+/*
+   Nouveau service de géocodage Géoplateforme / IGN.
+   Il utilise les données BAN et accepte les communes,
+   lieux et adresses.
+*/
+
+async function searchLocation() {
+
+    const input =
+        document
+        .getElementById("locationInput")
+        .value
+        .trim();
+
+    const status =
+        document
+        .getElementById("locationStatus");
+
+    if (!input) {
+
+        status.textContent =
+            "❌ Écris une ville, un village ou un code postal.";
+
+        return;
+    }
+
+    status.textContent =
+        "🔎 Recherche de " + input + "...";
+
+    try {
+
+        const params =
+            new URLSearchParams({
+
+                q: input,
+
+                index: "address",
+
+                limit: "5",
+
+                autocomplete: "true"
+
+            });
+
+
+        const response =
+            await fetch(
+                "https://data.geopf.fr/geocodage/search?" +
+                params.toString()
+            );
+
+
+        if (!response.ok) {
+            throw new Error("Erreur géocodage");
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.features ||
+            data.features.length === 0
+        ) {
+
+            throw new Error("Lieu introuvable");
+
+        }
+
+
+        /*
+           On prend le résultat le plus pertinent.
+        */
+
+        const place =
+            data.features[0];
+
+
+        const coords =
+            place.geometry.coordinates;
+
+
+        const longitude =
+            Number(coords[0]);
+
+
+        const latitude =
+            Number(coords[1]);
+
+
+        const properties =
+            place.properties || {};
+
+
+        const label =
+            properties.label ||
+            properties.name ||
+            input;
+
+
+        status.textContent =
+            "📍 " +
+            label;
+
+
+        await getWeather(
+            latitude,
+            longitude
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "❌ Impossible de trouver ce lieu. Essaie avec le nom du village ou son code postal.";
+
+    }
+
+}
+
+
+/* ================= METEO ================= */
+
+async function getWeather(latitude, longitude) {
+
+    try {
+
+        const url =
+            "https://api.open-meteo.com/v1/forecast?" +
+            new URLSearchParams({
+
+                latitude: latitude,
+
+                longitude: longitude,
+
+                current:
+                    "temperature_2m," +
+                    "cloud_cover," +
+                    "wind_speed_10m," +
+                    "visibility," +
+                    "precipitation",
+
+                timezone: "auto"
+
+            });
+
+
+        const response =
+            await fetch(url);
+
+
+        const data =
+            await response.json();
+
+
+        const weather =
+            data.current;
+
+
+        const clouds =
+            Number(weather.cloud_cover);
+
+
+        const temperature =
+            Number(weather.temperature_2m);
+
+
+        const wind =
+            Number(weather.wind_speed_10m);
+
+
+        const visibility =
+            Number(weather.visibility);
+
+
+        document
+            .getElementById("clouds")
+            .textContent =
+            clouds + "%";
+
+
+        document
+            .getElementById("temperature")
+            .textContent =
+            temperature + " °C";
+
+
+        document
+            .getElementById("wind")
+            .textContent =
+            Math.round(wind) + " km/h";
+
+
+        document
+            .getElementById("visibility")
+            .textContent =
+            visibility >= 1000
+            ? Math.round(visibility / 1000) + " km"
+            : Math.round(visibility) + " m";
+
+
+        let score = 10;
+
+
+        score -= clouds * 0.075;
+
+
+        if (visibility < 10000) {
+            score -= 1;
+        }
+
+
+        if (visibility < 5000) {
+            score -= 1.5;
+        }
+
+
+        if (Number(weather.precipitation) > 0) {
+            score -= 2;
+        }
+
+
+        score =
+            Math.max(
+                0,
+                Math.min(10, score)
+            );
+
+
+        score =
+            Math.round(score * 10) / 10;
+
+
+        const scoreElement =
+            document.getElementById("score");
+
+
+        scoreElement.classList.remove(
+            "good",
+            "medium",
+            "bad"
+        );
+
+
+        if (score >= 8) {
+
+            scoreElement.classList.add("good");
+
+            document
+                .getElementById("scoreText")
+                .textContent =
+                "🌌 Excellent : ciel très dégagé pour observer.";
+
+        }
+
+        else if (score >= 5) {
+
+            scoreElement.classList.add("medium");
+
+            document
+                .getElementById("scoreText")
+                .textContent =
+                "✨ Correct : certaines observations sont possibles.";
+
+        }
+
+        else {
+
+            scoreElement.classList.add("bad");
+
+            document
+                .getElementById("scoreText")
+                .textContent =
+                "☁️ Conditions peu favorables ce soir.";
+
+        }
+
+
+        scoreElement.innerHTML =
+            score.toFixed(1).replace(".", ",") +
+            " <span class='muted'>/ 10</span>";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document
+            .getElementById("scoreText")
+            .textContent =
+            "❌ Impossible de récupérer la météo.";
+
+    }
+
+}
+
+
+/* ================= IMAGES NASA ================= */
+
+/*
+   NASA Images and Video Library.
+   Pas besoin de clé API.
+*/
+
+async function nasaImages(query, count = 3) {
+
+    const url =
+        "https://images-api.nasa.gov/search?" +
+        new URLSearchParams({
+
+            q: query,
+
+            media_type: "image"
+
+        });
+
+
+    const response =
+        await fetch(url);
+
+
+    const data =
+        await response.json();
+
+
+    const items =
+        data.collection.items || [];
+
+
+    return items
+        .filter(item =>
+            item.links &&
+            item.links[0] &&
+            item.links[0].href
+        )
+        .slice(0, count);
+
+}
+
+
+/* ================= PLANETES ================= */
+
+async function loadPlanetImages() {
+
+    const grid =
+        document.getElementById("planetGrid");
+
+
+    grid.innerHTML =
+        "<div class='loading'>🛰️ Chargement des vraies images NASA...</div>";
+
+
+    const planets = [
+
+        ["Mercure", "Mercury"],
+        ["Vénus", "Venus"],
+        ["Mars", "Mars"],
+        ["Jupiter", "Jupiter"],
+        ["Saturne", "Saturn"],
+        ["Uranus", "Uranus"],
+        ["Neptune", "Neptune"]
+
+    ];
+
+
+    const results = [];
+
+
+    for (const planet of planets) {
+
+        try {
+
+            const images =
+                await nasaImages(
+                    planet[1],
+                    1
+                );
+
+
+            if (images.length > 0) {
+
+                results.push({
+
+                    name: planet[0],
+
+                    image:
+                        images[0].links[0].href
+
+                });
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    if (results.length === 0) {
+
+        grid.innerHTML =
+            "<div class='loading'>❌ Images NASA indisponibles.</div>";
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        results.map(item => `
+
+            <div class="object">
+
+                <img
+                    src="${item.image}"
+                    alt="Image NASA de ${item.name}"
+                >
+
+                <div class="object-content">
+
+                    <h2>🪐 ${item.name}</h2>
+
+                    <p class="muted">
+                        Image réelle provenant de la bibliothèque NASA.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* ================= ESPACE ================= */
+
+async function loadSpaceImages() {
+
+    const grid =
+        document.getElementById("spaceGrid");
+
+
+    grid.innerHTML =
+        "<div class='loading'>🔭 Recherche des images NASA...</div>";
+
+
+    const objects = [
+
+        ["🌌 Andromède", "Andromeda Galaxy"],
+
+        ["🌫️ Nébuleuse d'Orion", "Orion Nebula"],
+
+        ["🕳️ Trou noir", "black hole"],
+
+        ["✨ Étoiles", "stars"],
+
+        ["🌌 Voie lactée", "Milky Way"],
+
+        ["🔭 James Webb", "James Webb Space Telescope"]
+
+    ];
+
+
+    const results = [];
+
+
+    for (const object of objects) {
+
+        try {
+
+            const images =
+                await nasaImages(
+                    object[1],
+                    1
+                );
+
+
+            if (images.length > 0) {
+
+                results.push({
+
+                    name: object[0],
+
+                    image:
+                        images[0].links[0].href
+
+                });
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    grid.innerHTML =
+        results.map(item => `
+
+            <div class="object">
+
+                <img
+                    src="${item.image}"
+                    alt="${item.name}"
+                >
+
+                <div class="object-content">
+
+                    <h2>${item.name}</h2>
+
+                    <p class="muted">
+                        Image réelle issue de la bibliothèque NASA.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* ================= ACTUALITES ================= */
+
+async function loadNews() {
+
+    const grid =
+        document.getElementById("newsGrid");
+
+
+    grid.innerHTML =
+        "<div class='loading'>🚀 Chargement des dernières actualités NASA...</div>";
+
+
+    /*
+       NASA fournit officiellement un flux RSS
+       de ses actualités.
+       
+       Comme un navigateur bloque souvent la lecture
+       directe d'un RSS externe, on utilise ici un
+       convertisseur RSS → JSON pour afficher les
+       articles directement dans A.R.T.I.S.
+    */
+
+    const rss =
+        "https://www.nasa.gov/rss/dyn/breaking_news.rss";
+
+
+    const api =
+        "https://api.rss2json.com/v1/api.json?rss_url=" +
+        encodeURIComponent(rss);
+
+
+    try {
+
+        const response =
+            await fetch(api);
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.items ||
+            data.items.length === 0
+        ) {
+
+            throw new Error("Aucune actualité");
+
+        }
+
+
+        const articles =
+            data.items.slice(0, 8);
+
+
+        grid.innerHTML =
+            articles.map(article => {
+
+                const image =
+                    article.thumbnail ||
+                    "https://images-assets.nasa.gov/image/PIA12348/PIA12348~orig.jpg";
+
+
+                const date =
+                    article.pubDate
+                    ? new Date(article.pubDate)
+                        .toLocaleDateString(
+                            "fr-FR"
+                        )
+                    : "";
+
+
+                return `
+
+                    <article class="news">
+
+                        <img
+                            src="${image}"
+                            alt=""
+                            onerror="this.style.display='none'"
+                        >
+
+                        <div class="news-content">
+
+                            <div class="muted">
+                                NASA • ${date}
+                            </div>
+
+                            <h2>
+                                ${escapeHTML(article.title)}
+                            </h2>
+
+                            <p class="muted">
+                                ${escapeHTML(
+                                    cleanDescription(
+                                        article.description
+                                    )
+                                )}
+                            </p>
+
+                            <a
+                                href="${article.link}"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                Lire l'article NASA →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }).join("");
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+
+        grid.innerHTML = `
+
+            <div class="news">
+
+                <div class="news-content">
+
+                    <h2>⚠️ Actualités indisponibles</h2>
+
+                    <p class="muted">
+                        Le flux NASA n'a pas pu être chargé.
+                    </p>
+
+                    <a
+                        href="https://www.nasa.gov/news/"
+                        target="_blank"
+                    >
+                        Ouvrir NASA News →
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ================= OUTILS TEXTE ================= */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text || "";
+
+    return div.innerHTML;
+
+}
+
+
+function cleanDescription(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.innerHTML =
+        text || "";
+
+    return div.textContent
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 220);
+
+}
+
+
+/* ================= RECHERCHE OBJETS ================= */
+
+async function searchObject() {
+
+    const input =
+        document
+        .getElementById("objectSearch")
+        .value
+        .trim();
+
+
+    const results =
+        document
+        .getElementById("searchResults");
+
+
+    if (!input) {
+
+        results.innerHTML = "";
+
+        return;
+
+    }
+
+
+    results.innerHTML =
+        "<div class='loading'>🔭 Recherche dans la bibliothèque NASA...</div>";
+
+
+    try {
+
+        const images =
+            await nasaImages(
+                input,
+                6
+            );
+
+
+        if (images.length === 0) {
+
+            results.innerHTML =
+                "<p class='muted'>❌ Aucun résultat trouvé.</p>";
+
+            return;
+
+        }
+
+
+        results.innerHTML =
+            `<div class="object-grid">` +
+
+            images.map(item => {
+
+                const image =
+                    item.links[0].href;
+
+
+                const title =
+                    item.data &&
+                    item.data[0] &&
+                    item.data[0].title
+                    ? item.data[0].title
+                    : input;
+
+
+                return `
+
+                    <div class="object">
+
+                        <img
+                            src="${image}"
+                            alt=""
+                        >
+
+                        <div class="object-content">
+
+                            <h3>
+                                ${escapeHTML(title)}
+                            </h3>
+
+                            <p class="muted">
+                                Image NASA
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("") +
+
+            `</div>`;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        results.innerHTML =
+            "<p class='muted'>❌ Erreur pendant la recherche.</p>";
+
+    }
+
+}
+
+
+/* ================= ENTREE ================= */
+
+document
+    .getElementById("locationInput")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Enter") {
+
+                searchLocation();
+
+            }
+
+        }
+    );
+
+
+/* ================= DEMARRAGE ================= */
+
+showPage("ciel");
+
+</script>
+<!-- ================= MODE CAMÉRA ASTRONOMIQUE ================= -->
+
+<style>
+#skyCameraButton {
+    width: 100%;
+    margin-top: 15px;
+    padding: 16px;
+    border: none;
+    border-radius: 16px;
+    background: #079ed5;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#skyCamera {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
+    display: none;
+    overflow: hidden;
+}
+
+#skyVideo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#skyOverlay {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.skyObject {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    text-shadow:
+        0 0 5px #000,
+        0 0 12px #000,
+        0 0 20px #000;
+    pointer-events: none;
+}
+
+.skyStar {
+    width: 7px;
+    height: 7px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 12px white;
+    margin: auto;
+}
+
+.skyPlanet {
+    font-size: 38px;
+}
+
+.skyLabel {
+    margin-top: 5px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+#cameraTop {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cameraTitle {
+    background: rgba(0,0,0,.65);
+    padding: 10px 15px;
+    border-radius: 14px;
+    font-weight: bold;
+}
+
+#closeCamera {
+    border: none;
+    background: rgba(200,30,30,.85);
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#cameraBottom {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 10;
+    background: rgba(0,0,0,.65);
+    border-radius: 18px;
+    padding: 14px;
+    text-align: center;
+}
+
+#cameraStatus {
+    color: #55ddff;
+    font-size: 14px;
+}
+
+#cameraPermission {
+    margin-top: 10px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 12px;
+    background: #079ed5;
+    color: white;
+    cursor: pointer;
+}
+</style>
+
+
+<button id="skyCameraButton" onclick="openSkyCamera()">
+    📷 Explorer le ciel avec la caméra
+</button>
+
+
+<div id="skyCamera">
+
+    <video
+        id="skyVideo"
+        autoplay
+        playsinline
+        muted>
+    </video>
+
+    <div id="skyOverlay"></div>
+
+    <div id="cameraTop">
+
+        <div id="cameraTitle">
+            🌌 A.R.T.I.S. — Ciel en direct
+        </div>
+
+        <button
+            id="closeCamera"
+            onclick="closeSkyCamera()">
+            ✕
+        </button>
+
+    </div>
+
+    <div id="cameraBottom">
+
+        <div id="cameraStatus">
+            🧭 Oriente ton téléphone vers le ciel
+        </div>
+
+        <button
+            id="cameraPermission"
+            onclick="enableOrientation()">
+            🧭 Activer l'orientation
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   A.R.T.I.S. — CAMÉRA DU CIEL
+   ========================================================= */
+
+let skyStream = null;
+
+let deviceHeading = 0;
+
+let orientationEnabled = false;
+
+
+/* ================= OBJETS DU CIEL ================= */
+
+const skyObjects = [
+
+    {
+        name: "Sirius",
+        type: "star",
+        azimuth: 180,
+        altitude: 25
+    },
+
+    {
+        name: "Véga",
+        type: "star",
+        azimuth: 45,
+        altitude: 55
+    },
+
+    {
+        name: "Capella",
+        type: "star",
+        azimuth: 35,
+        altitude: 70
+    },
+
+    {
+        name: "Arcturus",
+        type: "star",
+        azimuth: 90,
+        altitude: 35
+    },
+
+    {
+        name: "Procyon",
+        type: "star",
+        azimuth: 140,
+        altitude: 30
+    },
+
+    {
+        name: "Bételgeuse",
+        type: "star",
+        azimuth: 120,
+        altitude: 45
+    },
+
+    {
+        name: "Rigel",
+        type: "star",
+        azimuth: 125,
+        altitude: 40
+    },
+
+    {
+        name: "Polaris",
+        type: "star",
+        azimuth: 0,
+        altitude: 49
+    },
+
+    {
+        name: "🌙 Lune",
+        type: "planet",
+        azimuth: 220,
+        altitude: 45
+    },
+
+    {
+        name: "🪐 Saturne",
+        type: "planet",
+        azimuth: 200,
+        altitude: 25
+    },
+
+    {
+        name: "🟠 Jupiter",
+        type: "planet",
+        azimuth: 150,
+        altitude: 35
+    },
+
+    {
+        name: "🔴 Mars",
+        type: "planet",
+        azimuth: 110,
+        altitude: 20
+    }
+
+];
+
+
+/* ================= OUVRIR CAMÉRA ================= */
+
+async function openSkyCamera() {
+
+    const camera =
+        document.getElementById("skyCamera");
+
+    camera.style.display = "block";
+
+
+    try {
+
+        skyStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: {
+                        ideal: "environment"
+                    }
+                },
+
+                audio: false
+
+            });
+
+
+        document
+            .getElementById("skyVideo")
+            .srcObject = skyStream;
+
+
+        document
+            .getElementById("cameraStatus")
+            .textContent =
+            "📷 Caméra activée — pointe ton téléphone vers le ciel";
+
+
+        drawSkyObjects();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document
+            .getElementById("cameraStatus")
+            .textContent =
+            "❌ Autorise l'accès à la caméra dans ton navigateur.";
+
+    }
+
+}
+
+
+/* ================= FERMER CAMÉRA ================= */
+
+function closeSkyCamera() {
+
+    const camera =
+        document.getElementById("skyCamera");
+
+
+    camera.style.display = "none";
+
+
+    if (skyStream) {
+
+        skyStream
+            .getTracks()
+            .forEach(track => track.stop());
+
+        skyStream = null;
+
+    }
+
+}
+
+
+/* ================= ORIENTATION ================= */
+
+async function enableOrientation() {
+
+    try {
+
+        /*
+         Sur iPhone/iPad, l'autorisation
+         doit être demandée après un clic.
+        */
+
+        if (
+            typeof DeviceOrientationEvent !== "undefined" &&
+            typeof DeviceOrientationEvent.requestPermission === "function"
+        ) {
+
+            const permission =
+                await DeviceOrientationEvent
+                    .requestPermission();
+
+
+            if (permission !== "granted") {
+
+                document
+                    .getElementById("cameraStatus")
+                    .textContent =
+                    "❌ Autorisation d'orientation refusée.";
+
+                return;
+
+            }
+
+        }
+
+
+        window.addEventListener(
+            "deviceorientation",
+            handleOrientation,
+            true
+        );
+
+
+        orientationEnabled = true;
+
+
+        document
+            .getElementById("cameraPermission")
+            .style.display = "none";
+
+
+        document
+            .getElementById("cameraStatus")
+            .textContent =
+            "🧭 Orientation activée — tourne ton téléphone";
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document
+            .getElementById("cameraStatus")
+            .textContent =
+            "❌ Impossible d'activer l'orientation.";
+
+    }
+
+}
+
+
+/* ================= CAPTEUR ================= */
+
+function handleOrientation(event) {
+
+    let heading;
+
+
+    /*
+       iPhone
+    */
+
+    if (
+        event.webkitCompassHeading !== undefined &&
+        event.webkitCompassHeading !== null
+    ) {
+
+        heading =
+            event.webkitCompassHeading;
+
+    }
+
+    /*
+       Android / autres appareils
+    */
+
+    else if (
+        event.alpha !== null
+    ) {
+
+        heading =
+            360 - event.alpha;
+
+    }
+
+
+    if (heading !== undefined) {
+
+        deviceHeading =
+            (heading + 360) % 360;
+
+        drawSkyObjects();
+
+    }
+
+}
+
+
+/* ================= AFFICHAGE ================= */
+
+function drawSkyObjects() {
+
+    const overlay =
+        document.getElementById("skyOverlay");
+
+
+    if (!overlay) return;
+
+
+    overlay.innerHTML = "";
+
+
+    const width =
+        window.innerWidth;
+
+    const height =
+        window.innerHeight;
+
+
+    skyObjects.forEach(object => {
+
+
+        /*
+          Champ de vision approximatif :
+          environ 70° horizontal.
+        */
+
+        let difference =
+            object.azimuth - deviceHeading;
+
+
+        while (difference > 180)
+            difference -= 360;
+
+        while (difference < -180)
+            difference += 360;
+
+
+        const horizontalFOV = 70;
+
+
+        if (
+            Math.abs(difference) >
+            horizontalFOV / 2
+        ) {
+
+            return;
+
+        }
+
+
+        const x =
+            width / 2 +
+            (
+                difference /
+                (horizontalFOV / 2)
+            ) *
+            (width / 2);
+
+
+        /*
+          Altitude :
+
+          0° = horizon
+          90° = zénith
+        */
+
+        const y =
+            height -
+            (
+                object.altitude /
+                90
+            ) *
+            height;
+
+
+        const element =
+            document.createElement("div");
+
+
+        element.className =
+            "skyObject";
+
+
+        element.style.left =
+            x + "px";
+
+
+        element.style.top =
+            y + "px";
+
+
+        if (object.type === "planet") {
+
+            element.innerHTML = `
+
+                <div class="skyPlanet">
+                    ${object.name.split(" ")[0]}
+                </div>
+
+                <div class="skyLabel">
+                    ${object.name.substring(
+                        object.name.indexOf(" ") + 1
+                    )}
+                </div>
+
+            `;
+
+        }
+
+        else {
+
+            element.innerHTML = `
+
+                <div class="skyStar"></div>
+
+                <div class="skyLabel">
+                    ${object.name}
+                </div>
+
+            `;
+
+        }
+
+
+        overlay.appendChild(element);
+
+    });
+
+}
+
+
+/* ================= REDIMENSIONNEMENT ================= */
+
+window.addEventListener(
+    "resize",
+    drawSkyObjects
+);
+
+
+/* ================= ARRET ORIENTATION ================= */
+
+document
+    .getElementById("closeCamera")
+    .addEventListener(
+        "click",
+        () => {
+
+            window.removeEventListener(
+                "deviceorientation",
+                handleOrientation,
+                true
+            );
+
+            orientationEnabled = false;
+
+        }
+    );
+
+</script>
+</body>
+</html>
